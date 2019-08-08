@@ -2,13 +2,6 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { MessageService } from '../services/message.service';
 import { Message } from '../models/message';
-
-// import { Graph } from '../models/graph';
-// import { ModalController } from '@ionic/angular';
-// import { SentimentVoteService } from '../services/sentiment-vote.service';
-// import { Color } from 'ng2-charts';
-
-// import { MessageUpdatePage } from '../modals/message-update/message-update.page';
     
 declare var require: any;
 const Sentiment = require('sentiment');

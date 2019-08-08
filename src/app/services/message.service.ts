@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Message } from '../models/message';
-import { GraphData } from '../models/graph-data';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
 
-  barGraph: GraphData;
 
   constructor(private firestore: AngularFirestore) { 
-    this.barGraph = new GraphData();
   }
 
   getGraphDataAndLabels(messages: Message[]) {
@@ -38,10 +35,12 @@ export class MessageService {
     return this.firestore.collection('messages').add({...message});
   }
 
+  // Included for completeness, not used.
   updateMessage(message: Message): void {
     this.firestore.doc('messages/' + message.id).update(message);
   }
 
+  // Included for completeness, not used.
   deleteMessage(message: Message): void {
     this.firestore.doc('messages/' + message.id).delete();
   }

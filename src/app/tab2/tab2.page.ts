@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from '../services/message.service';
 import { Message } from '../models/message';
 
-import { MessageUpdatePage } from '../modals/message-update/message-update.page';
-
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
