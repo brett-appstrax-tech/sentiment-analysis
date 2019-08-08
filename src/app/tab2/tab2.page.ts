@@ -47,7 +47,6 @@ export class Tab2Page implements OnInit {
       let obj = this.messageService.getGraphDataAndLabels(this.messages);
       this.graphData = obj.graphData;
       this.graphLabels = obj.graphLabels;
-      console.log(obj);
     });
   }
 }

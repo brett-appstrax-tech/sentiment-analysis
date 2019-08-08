@@ -42,7 +42,6 @@ export class Tab1Page implements OnInit {
         } as Message;
       })
       this.messages.sort((message1, message2) => ((message1.dateCreated < message2.dateCreated) ? 1 : -1));
-      console.log(this.messages);
     });
   }
 
@@ -55,7 +54,6 @@ export class Tab1Page implements OnInit {
   createMessage() {
     this.message.dateCreated = this.formatDate(new Date().toISOString());
     this.message.score = this.sentiment.analyze(this.message.message).comparative;
-    console.log(this.message, this.threshold);
     if (this.message.score > this.threshold) {
       this.messageService.createMessage(this.message);
       this.getMessages();
@@ -70,10 +68,4 @@ export class Tab1Page implements OnInit {
       }).then(alert => alert.present());
     }
   }
-
-  // formatDate(newDate) {
-  //   const date = newDate.slice(0, newDate.indexOf("T"));
-  //   const time = newDate.slice(newDate.indexOf("T") + 1, newDate.indexOf("."));
-  //   return date + " " + time;
-  // }
 }
