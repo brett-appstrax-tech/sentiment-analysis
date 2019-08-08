@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar class="background-header">
+    <ion-title>
+      Update Message
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+
+  <ion-card class="background-card">
+    <ion-card-header>
+      <ion-card-title>Message</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-input type="text" placeholder="Message" [(ngModel)] = "message.message" ></ion-input>
+      </ion-item>
+      <div>
+        <ion-button size="medium" (click)="update()">Update Message</ion-button>
+        <ion-button size="medium" (click)="delete()">Delete Message</ion-button>
+      </div>
+  </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

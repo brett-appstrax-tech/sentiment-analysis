@@ -1,4 +1,14 @@
-.welcome-card img {
-  max-height: 35vh;
-  overflow: hidden;
+
+ion-content.background{
+  --background: url(https://monkeylearn.com/static/img/sentiment_pillar_social.png) 0 0/100% 100% no-repeat;
+}
+
+ion-card.background-card{
+  background-color: #a9add1f3;
+  width: 80%;
+  margin-left: 10%;
+}
+
+.background-header{
+  --background: #75838be5;
 }

@@ -1,9 +1,33 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="background-header">
     <ion-title>
-      Tab Two
+      Message List
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content class="background">
+ 
+  <div>
+    <ion-card *ngFor="let mes of messages" (click)="update(mes)" class="background-card">
+      <ion-card-header>
+        <ion-grid>
+          <ion-row>
+            <ion-col push-md align-self: center>
+              <ion-card-subtitle>{{mes.dateCreated}}</ion-card-subtitle>
+              <ion-card-title>Message: {{mes.message}}</ion-card-title>
+            </ion-col>
+            <ion-col align-self: center>
+              <ion-card-title></ion-card-title>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-card-header>
+      <ion-card-content>
+          Score: {{mes.score}}
+      </ion-card-content>
+    </ion-card>
+  </div>
+    
+</ion-content>

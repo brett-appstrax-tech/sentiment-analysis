@@ -1,9 +1,45 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="background-header">
     <ion-title>
-      Tab Three
+      Sentiment Threshold
     </ion-title>
   </ion-toolbar>
 </ion-header>
+  
+<ion-content class="background">
 
-<ion-content></ion-content>
+  <ion-card class="background-card">
+      <ion-card-header>
+        <ion-card-title>Vote to Update Threshold</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-input type="text" placeholder="Vote [between -5 and 5]" [(ngModel)] = "sentimentThresholdVote.threshold" ></ion-input>
+        </ion-item>
+        <div>
+          <ion-button size="medium" (click)="create()">Add Vote</ion-button>
+        </div>
+    </ion-card-content>
+
+  </ion-card>
+
+  <ion-card class="background-card">
+    <ion-card-header>
+      <ion-card-title>Current Threshold: {{threshold}}</ion-card-title>
+      <ion-card-title>Recent Votes</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div style="display: block">
+          <canvas baseChart
+                  [datasets]="graph.data"
+                  [labels]="graph.labels"
+                  [options]="graph.options"
+                  [legend]="graph.legend"
+                  [colors]="lineChartColors"
+                  [chartType]="graph.type">
+          </canvas>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
