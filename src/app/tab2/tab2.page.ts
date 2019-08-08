@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from '../services/message.service';
 import { Message } from '../models/message';
-import { ModalController } from '@ionic/angular';
-
-import { MessageUpdatePage } from '../modals/message-update/message-update.page';
 
 @Component({
   selector: 'app-tab2',
@@ -15,7 +12,19 @@ export class Tab2Page implements OnInit {
   messages: Message[];
   message: Message;
 
-  constructor(private messageService: MessageService, private modalController: ModalController) {
+  // Chart fields
+  graphDelimeter = 10;
+  graphOptions = {
+    responsive: true
+  }
+  graphTitle = "Messages over time";
+  graphType = "bar";
+  graphData = [{ data: [], label: 'Message scores' }];
+  graphLabels = [];
+  graphLegend = true;
+
+
+  constructor(private messageService: MessageService) {
     this.message = new Message();
     this.messages = [];
   }
@@ -35,23 +44,10 @@ export class Tab2Page implements OnInit {
           ...e.payload.doc.data()
         } as Message;
       });
+      let obj = this.messageService.getGraphDataAndLabels(this.messages);
+      this.graphData = obj.graphData;
+      this.graphLabels = obj.graphLabels;
+      console.log(obj);
     });
   }
-
-  async update(message) {
-    const modal = await this.modalController.create({
-      component: MessageUpdatePage,
-      componentProps: {
-        'message': message,
-      }
-    });
-    modal.onDidDismiss().then((detail: any) => {
-      if (detail !== null) {
-        console.log('The result:', detail.data);
-      }
-      this.getMessages();
-    });
-    return await modal.present();
-  }
-
 }

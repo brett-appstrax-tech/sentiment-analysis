@@ -1,33 +1,17 @@
-<ion-header>
-  <ion-toolbar class="background-header">
-    <ion-title>
-      Message List
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="background">
- 
-  <div>
-    <ion-card *ngFor="let mes of messages" (click)="update(mes)" class="background-card">
-      <ion-card-header>
-        <ion-grid>
-          <ion-row>
-            <ion-col push-md align-self: center>
-              <ion-card-subtitle>{{mes.dateCreated}}</ion-card-subtitle>
-              <ion-card-title>Message: {{mes.message}}</ion-card-title>
-            </ion-col>
-            <ion-col align-self: center>
-              <ion-card-title></ion-card-title>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-
-      </ion-card-header>
-      <ion-card-content>
-          Score: {{mes.score}}
-      </ion-card-content>
-    </ion-card>
+<ion-content>
+  <div class="navbar text-center">
+    <div style="margin: 0 auto">
+      <h4>Happy Messages</h4>
+      <h6 class="font-italic">Your happiness-fix in a miserable world.</h6>
+    </div>
   </div>
-    
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <canvas baseChart [datasets]="graphData" [labels]="graphLabels" [options]="graphOptions"
+          [legend]="graphLegend" [chartType]="graphType">
+        </canvas>
+      </div>
+    </div>
+  </div>
 </ion-content>

@@ -5,8 +5,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  },
-  { path: 'message-update', loadChildren: './modals/message-update/message-update.module#MessageUpdatePageModule' }
+  }
 ];
 @NgModule({
   imports: [
