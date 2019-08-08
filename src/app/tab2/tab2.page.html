@@ -5,4 +5,13 @@
       <h6 class="font-italic">Your happiness-fix in a miserable world.</h6>
     </div>
   </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <canvas baseChart [datasets]="graphData" [labels]="graphLabels" [options]="graphOptions"
+          [legend]="graphLegend" [chartType]="graphType">
+        </canvas>
+      </div>
+    </div>
+  </div>
 </ion-content>
