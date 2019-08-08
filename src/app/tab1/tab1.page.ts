@@ -1,13 +1,14 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { MessageService } from '../services/message.service';
 import { Message } from '../models/message';
-import { Graph } from '../models/graph';
-import { ModalController } from '@ionic/angular';
-import { SentimentVoteService } from '../services/sentiment-vote.service';
-import { AlertController } from '@ionic/angular';
-import { Color } from 'ng2-charts';
 
-import { MessageUpdatePage } from '../modals/message-update/message-update.page';
+// import { Graph } from '../models/graph';
+// import { ModalController } from '@ionic/angular';
+// import { SentimentVoteService } from '../services/sentiment-vote.service';
+// import { Color } from 'ng2-charts';
+
+// import { MessageUpdatePage } from '../modals/message-update/message-update.page';
     
 declare var require: any;
 const Sentiment = require('sentiment');
@@ -20,41 +21,23 @@ const Sentiment = require('sentiment');
 export class Tab1Page implements OnInit {
   @ViewChild('scrollBottom', {read: "scrollBottom", static: false}) private scrollBottom: ElementRef;
 
-  graph: Graph;
-  graphDelimeter = 10;
-
   sentiment = new Sentiment();
   messages: Message[];
   message: Message;
-  filteredMessages: Message[];
 
   threshold: number;
 
-  lineChartColors: Color[] = [
-    { // grey
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
-    }
-  ];
-
-  constructor(private messageService: MessageService, private modalController: ModalController, 
-    private sentimentVoteService: SentimentVoteService, private alertController: AlertController) {
+  constructor(private messageService: MessageService, private alertController: AlertController) {
     this.message = new Message();
     this.messages = [];
-    this.graph = new Graph('bar');
+    this.threshold = 0; // Might customize in the future. 
   }
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
-    this.filteredMessages = [];
     this.getMessages();
-    this.updateThreshold();
   }
 
   getMessages() {
@@ -64,26 +47,10 @@ export class Tab1Page implements OnInit {
           id: e.payload.doc.id,
           ...e.payload.doc.data()
         } as Message;
-      });
-      this.updateGraph(this.messageService.setbarGraph(this.messages, this.graphDelimeter), 'bar', 'Message Scores');
-      console.log({messages: this.messages});
+      })
+      this.messages.sort((message1, message2) => ((message1.dateCreated < message2.dateCreated) ? 1 : -1));
+      console.log(this.messages);
     });
-  }
-
-  updateThresholdCallBack = (threshold) => {
-    this.threshold = threshold;
-  };
-
-  updateThreshold() {
-    this.sentimentVoteService.getThreshold(this.updateThresholdCallBack);
-  }
-
-  updateGraph(data, type, title){
-    this.graph.data = [];
-    this.graph.data.push(data);
-    this.graph.labels = data.xAxis;
-    this.graph.type = type;
-    this.graph.title = title;
   }
 
   formatDate(newDate) {
@@ -92,12 +59,14 @@ export class Tab1Page implements OnInit {
     return date + " " + time;
   }
 
-  create() {
+  createMessage() {
     this.message.dateCreated = this.formatDate(new Date().toISOString());
     this.message.score = this.sentiment.analyze(this.message.message).comparative;
-    if (this.message.score >= this.threshold) {
+    console.log(this.message, this.threshold);
+    if (this.message.score > this.threshold) {
       this.messageService.createMessage(this.message);
       this.getMessages();
+      this.message = new Message(); // Reset message.
     }
     else {
       this.alertController.create({
@@ -109,46 +78,9 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  chartClicked({ event, active }: { event: MouseEvent, active: any[] }): void {
-    let index = (active[0]._index);
-    console.log({index: index});
-    this.filterMessages(index);
-  }  
-
-  filterMessages(index) {
-    this.filteredMessages = [];
-    let lowerBound = -5 + index * (10 / this.graphDelimeter);
-    let upperBound = -5 + (index + 1) * (10 / this.graphDelimeter);
-    this.messages.forEach(message => { 
-      if (message.score > lowerBound && message.score <= upperBound) {
-        this.filteredMessages.push(message);
-      }
-    });
-    this.scrollToBottom();
-    window.scrollTo(0,document.body.scrollHeight);
-    console.log({filteredMessages: this.filteredMessages});
-  }
-
-  scrollToBottom(): void {
-    try {
-        this.scrollBottom.nativeElement.scrollTop = this.scrollBottom.nativeElement.scrollHeight;
-    } catch(err) { }
-  }
-
-  async update(message) {
-    const modal = await this.modalController.create({
-      component: MessageUpdatePage,
-      componentProps: {
-        'message': message,
-      }
-    });
-    modal.onDidDismiss().then((detail: any) => {
-      if (detail !== null) {
-        console.log('The result:', detail.data);
-      }
-      this.getMessages();
-    });
-    return await modal.present();
-  }
-
+  // formatDate(newDate) {
+  //   const date = newDate.slice(0, newDate.indexOf("T"));
+  //   const time = newDate.slice(newDate.indexOf("T") + 1, newDate.indexOf("."));
+  //   return date + " " + time;
+  // }
 }

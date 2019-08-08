@@ -1,67 +1,53 @@
-<ion-header>
-  <ion-toolbar class="background-header">
-    <ion-title>
-      Message Summary
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content class="background">
-
-  <ion-card class="background-card">
-      <ion-card-header>
-        <ion-card-title>Create Message</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-item>
-          <ion-input type="text" placeholder="Message" [(ngModel)] = "message.message" ></ion-input>
-        </ion-item>
-        <div>
-          <ion-button size="medium" (click)="create()">Add Message</ion-button>
-        </div>
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card class="background-card">
-    <ion-card-header>
-      <ion-card-title>Message Scores</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <div style="display: block">
-          <canvas baseChart
-                  [datasets]="graph.data"
-                  [labels]="graph.labels"
-                  [options]="graph.options"
-                  [legend]="graph.legend"
-                  [chartType]="graph.type"
-                  [colors]="lineChartColors"
-                  (chartClick)="chartClicked($event)">
-          </canvas>
-      </div>
-    </ion-card-content>
-  </ion-card>
-
-  <div #scrollBottom>
-    <ion-card *ngFor="let mes of filteredMessages" (click)="update(mes)" class="background-card">
-      <ion-card-header>
-        <ion-grid>
-          <ion-row>
-            <ion-col push-md align-self: center>
-              <ion-card-subtitle>{{mes.dateCreated}}</ion-card-subtitle>
-              <ion-card-title>Message: {{mes.message}}</ion-card-title>
-            </ion-col>
-            <ion-col align-self: center>
-              <ion-card-title></ion-card-title>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-
-      </ion-card-header>
-      <ion-card-content>
-          Score: {{mes.score}}
-      </ion-card-content>
-    </ion-card>
+<ion-content>
+<div class="navbar text-center">
+  <div class="navbar-center">
+    <h4>Happy Messages</h4>
+    <h6 class="font-italic">Your happiness-fix in a miserable world.</h6>
   </div>
+</div>
 
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="jumbotron py-3">
+        <h5>
+          Post something happy!
+        </h5>
+        <small>
+          <p class="font-weight-light font-italic mb-3">
+            Our service will automagically use AI to analyse the sentiment of the message so you can live in the perfect happiness bubble you deserve.
+          </p>
+        </small>
+        <textarea type="text" class="form-control mb-3" placeholder="Happiness is just seconds away..." [(ngModel)]="message.message"></textarea>
+        <div class="btn btn-primary" (click)="createMessage()">Go!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row mb-4">
+    <div class="col-12 col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-header">
+          The happiness stream
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let message of messages">
+            <h6 class="text-primary font-weight-light">HAPPINESS SCORE: <span class="font-weight-bold">{{ message.score }}</span></h6>
+            <h3 class="py-3">
+              {{ message.message }}
+            </h3>
+            <small>
+              <p class="text-muted font-italic">
+                Posted on {{ message.dateCreated }}
+              </p>
+            </small>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 </ion-content>
